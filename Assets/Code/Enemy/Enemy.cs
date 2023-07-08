@@ -11,7 +11,9 @@ public  class Enemy : MonoBehaviour,IDamageable
 
     [SerializeField] private Animator anim;
     private bool invulable;
-    public GameObject bloodvfx;
+    public GameObject bloodvfx,dropXp;
+
+    private int direction = 1;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +23,7 @@ public  class Enemy : MonoBehaviour,IDamageable
     // Update is called once per frame
     void Update()
     {
+        
         if (dazedTime <= 0)
         {
             speed = 5;
@@ -35,10 +38,13 @@ public  class Enemy : MonoBehaviour,IDamageable
 
         if (health <= 0)
         {
+            Instantiate(dropXp, transform.position, quaternion.identity);
             Destroy(gameObject);
         }
 
         Attack();
+        
+        transform.Translate(Vector2.left*speed*direction*Time.deltaTime*direction);
     }
 
      void Attack()
@@ -56,4 +62,9 @@ public  class Enemy : MonoBehaviour,IDamageable
 
        // Debug.Log(Damage);
     }
+
+     public void setDirection(int _direction)
+     {
+         direction = _direction;
+     }
 }
